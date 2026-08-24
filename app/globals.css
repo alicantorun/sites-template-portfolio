@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Brand tokens (Tailwind v4 @theme) — a near-black editorial palette, deliberately
+   different from the coaching teal and the trades amber. The agent changes these to
+   re-skin the site; utilities like bg-brand / text-brand read from here. */
+@theme inline {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+    --color-brand: #171717;
+    --color-brand-dark: #000000;
+    --color-brand-tint: #fafaf9;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
