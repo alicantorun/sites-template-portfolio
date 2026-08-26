@@ -17,7 +17,7 @@ export function Hero() {
             </p>
             <a
                 href={h.primaryCta.href}
-                className="mt-8 inline-block border-b border-neutral-900 pb-0.5 text-sm font-medium text-neutral-900 transition-opacity hover:opacity-60"
+                className="mt-8 inline-block border-b border-brand pb-0.5 text-sm font-medium text-brand transition-opacity hover:opacity-60"
             >
                 {h.primaryCta.label} →
             </a>

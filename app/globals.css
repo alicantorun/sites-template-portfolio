@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
-/* Brand tokens (Tailwind v4 @theme) — a near-black editorial palette, deliberately
-   different from the coaching teal and the trades amber. The agent changes these to
-   re-skin the site; utilities like bg-brand / text-brand read from here. */
+/* Brand tokens (Tailwind v4 @theme) — a near-black editorial palette, deliberately different from
+   the coaching teal and the trades amber. Editing these three values re-skins the site, and that
+   claim is only true while every token has a real job, so here is each one's:
+
+     --color-brand       the ink of anything that acts or identifies — the wordmark, the hero link,
+                         the email address, the send button, every focus and hover state.
+     --color-brand-dark  the pressed/hover shade of that ink. Used by the send button.
+     --color-brand-tint  the page-tone wash behind the work grid and the sent-message panel.
+
+   A token that nothing reads is worse than no token: it tells the next agent the site can be
+   re-skinned by editing it, and then nothing changes. If a token stops being used, delete it. */
 @theme inline {
     --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;

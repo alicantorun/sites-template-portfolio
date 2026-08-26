@@ -1,27 +1,44 @@
 {
-  "name": "portfolio",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Portfolio template for the alicantorun.com website builder",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@supabase/ssr": "^0.12.5",
-    "@supabase/supabase-js": "^2.112.4",
-    "next": "16.2.10",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^24",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "name": "portfolio",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Portfolio template for the alicantorun.com website builder",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "eslint .",
+        "typecheck": "tsc --noEmit",
+        "verify": "pnpm lint && pnpm typecheck && pnpm build"
+    },
+    "dependencies": {
+        "@supabase/ssr": "^0.12.0",
+        "@supabase/supabase-js": "^2.110.2",
+        "@tanstack/react-query": "^5.101.2",
+        "next": "16.2.11",
+        "react": "19.2.7",
+        "react-dom": "19.2.7",
+        "server-only": "^0.0.1",
+        "zod": "^4.4.3"
+    },
+    "devDependencies": {
+        "@tailwindcss/postcss": "^4.3.2",
+        "@types/node": "^24.13.3",
+        "@types/react": "^19.2.17",
+        "@types/react-dom": "^19.2.3",
+        "eslint": "^9.39.4",
+        "eslint-config-next": "16.2.11",
+        "prettier": "^3.6.2",
+        "tailwindcss": "^4.3.2",
+        "typescript": "^5.9.3"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "sharp"
+        ]
+    },
+    "engines": {
+        "node": ">=20.9.0"
+    },
+    "repository": "https://github.com/alicantorun/sites-template-portfolio"
 }

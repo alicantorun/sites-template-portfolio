@@ -1,18 +1,29 @@
-// The content contract: every fact about the work in ONE typed module (the website-builder
-// template contract). Adding a project is one entry here; the grid and the SEO metadata both
-// read from it. The agent edits this for content and the components for structure and design.
+import type { Site } from "@/lib/site-schema";
+
+// The content for THIS site: every fact about the studio and the work in ONE typed module. Adding
+// a project is one entry here; the grid, the footer and the SEO metadata all read from it. The
+// agent edits this file for CONTENT and the components for STRUCTURE and DESIGN.
+//
+// The SHAPE lives in `lib/site-schema.ts` and is identical in every template — only the VALUES
+// below are this site's. The plain ANNOTATION is what makes tsc enforce it: a missing required
+// field fails here at the definition, and so does a field the contract does not know about.
+// Deliberately not `as const` — that produces readonly arrays, which do not satisfy the contract's
+// mutable ones, and nothing in this template needs the literal types it would buy.
 //
 // This template leads with the WORK. There is no services list and no pricing, because a
-// portfolio's job is to make someone want to ask — the asking happens in one quiet section
-// at the end.
-export const site = {
+// portfolio's job is to make someone want to ask — the asking happens in one quiet section at the
+// end. `phone`, `hero.secondaryCta`, `hero.stats`, `services`, `areas` and `hours` are absent for
+// the same reason: the contract marks them optional precisely so a template can leave out what
+// would be filler.
+export const site: Site = {
     business: {
         name: "Mira Okonjo",
-        discipline: "Brand & editorial design",
-        tagline: "Design that says the quiet part clearly.",
+        // The line that sits under the name and goes in the page title. This was `discipline`
+        // before the shared contract; `tagline` is the contract's name for the same job.
+        tagline: "Brand & editorial design",
         email: "studio@miraokonjo.example",
         location: "Lisbon, working remotely",
-        social: [
+        socials: [
             { label: "Instagram", href: "https://instagram.com/" },
             { label: "Are.na", href: "https://are.na/" },
         ],
@@ -77,6 +88,4 @@ export const site = {
         subtitle:
             "Tell me what you are making and roughly when. I reply to everything, usually within two days.",
     },
-} as const;
-
-export type Site = typeof site;
+};

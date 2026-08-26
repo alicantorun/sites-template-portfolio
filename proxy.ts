@@ -1,7 +1,10 @@
+// Next 16 deprecated the `middleware` file convention in favour of `proxy` — the same rename the
+// platform that builds this site already made. The behaviour is unchanged: refresh the Supabase
+// session cookie on a page request, and nothing else.
 import { type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
-export async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
     return updateSession(request);
 }
 

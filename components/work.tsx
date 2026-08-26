@@ -5,13 +5,17 @@ import { site } from "@/lib/content";
 // Swapping a card for an image is a component edit the agent can make once real work exists.
 export function Work() {
     const w = site.work;
+    // `work` is optional in the shared contract, so a site without it renders NOTHING here rather
+    // than an empty headed section. Same guard in every optional-section component.
+    if (!w) return null;
+
     return (
         <section id="work" className="border-t border-neutral-200 bg-brand-tint">
             <div className="mx-auto max-w-5xl px-6 py-20">
                 <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
                     {w.title}
                 </h2>
-                <p className="mt-3 max-w-xl text-neutral-600">{w.subtitle}</p>
+                {w.subtitle && <p className="mt-3 max-w-xl text-neutral-600">{w.subtitle}</p>}
                 <div className="mt-12 grid gap-px border border-neutral-200 bg-neutral-200 sm:grid-cols-2">
                     {w.projects.map((p) => (
                         <article key={p.name} className="bg-white p-8">

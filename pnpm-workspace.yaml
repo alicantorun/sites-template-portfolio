@@ -1,0 +1,29 @@
+# Build-script approval. Both dialects are shipped ON PURPOSE — see package.json's `pnpm` field.
+#
+# pnpm gates dependency build scripts, and the setting was RENAMED between majors:
+#   pnpm 9   — no gate at all.
+#   pnpm 10  — reads `pnpm.onlyBuiltDependencies` from package.json. Warns and continues.
+#   pnpm 11  — `onlyBuiltDependencies` was REMOVED and replaced by `allowBuilds` HERE, and
+#              `strictDepBuilds` defaults to true, so an unapproved script FAILS the install.
+#
+# Vercel picks the pnpm major from the lockfile version and the project's creation date, and the
+# sandbox image runs its own — so a template must install cleanly on all three. Verified by running
+# each combination: this pair exits 0 on 10 and 11, and builds sharp on both.
+#
+# Two traps, both verified rather than assumed:
+#   - `allowBuilds` is a MAP, not an array. An array parses fine and then does nothing.
+#   - pnpm 11 ignores `onlyBuiltDependencies` with NO warning of any kind. That silence is how
+#     this drifts back, which is why tests/template-toolchain.test.ts asserts both halves.
+#
+# NOT `dangerouslyAllowAllBuilds`: it approves every current and future transitive build script,
+# which is the exact execution surface the Shai-Hulud npm worms used.
+#
+# NO `minimumReleaseAge` here, deliberately — unlike the platform repo. The cooldown protects
+# version RESOLUTION, and nothing in a site's life resolves: the sandbox and Vercel both install
+# from the committed lockfile. Setting it would only make client publishes fail (measured: 7
+# lockfile entries breach it today). Resolution happens on a maintainer's machine; the cooldown
+# belongs there.
+allowBuilds:
+    # sharp arrives transitively through next, for image optimisation. Its install script is a
+    # prebuilt-binary check (`node install/check.js`), not a native compile.
+    sharp: true
