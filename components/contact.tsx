@@ -1,5 +1,6 @@
 import { site } from "@/lib/content";
 import { ContactForm } from "@/components/contact-form";
+import { contactDeliveryConfigured } from "@/lib/services/contact";
 
 // One quiet section. The email address stays the headline — it suits the work and it always
 // works — with a short form under it for anyone who would rather type than open a mail client.
@@ -24,7 +25,7 @@ export function Contact() {
                 <div className="mt-12 max-w-xl border-t border-neutral-200 pt-10">
                     <p className="text-sm text-neutral-500">Or send it from here.</p>
                     <div className="mt-6">
-                        <ContactForm />
+                        {contactDeliveryConfigured() && <ContactForm />}
                     </div>
                 </div>
             </div>
