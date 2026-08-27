@@ -127,3 +127,30 @@ body {
         transform: none !important;
     }
 }
+
+/* THE FIRST SCREEN NEVER WAITS FOR JAVASCRIPT.
+   Below the fold, a scroll-reveal is right: nothing is hidden that the visitor has reached yet.
+   In the HERO it is wrong — the server sends opacity:0 and only hydration removes it, so the
+   first thing anyone sees is a blank screen for as long as the bundle takes. Measured in the
+   editor preview on a fresh sandbox: the nav and the background painted, the headline did not.
+
+   So the hero animates in CSS instead. A CSS animation starts at FIRST PAINT with no JS at all,
+   ends visible, and is skipped entirely under prefers-reduced-motion by the rule above. Same
+   effect, none of the risk. */
+@keyframes enter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+.enter {
+    animation: enter var(--motion-base) var(--ease-out) both;
+}
+.enter-1 { animation-delay: 60ms; }
+.enter-2 { animation-delay: 120ms; }
+.enter-3 { animation-delay: 180ms; }
+.enter-4 { animation-delay: 240ms; }

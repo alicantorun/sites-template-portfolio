@@ -1,9 +1,12 @@
 import { site } from "@/lib/content";
 import { Container } from "@/lib/ui/container";
 import { Button } from "@/lib/ui/button";
-import { Reveal } from "@/lib/ui/reveal";
 import { Grid } from "@/components/visual";
 
+// Every element here animates in CSS, not with <Reveal>: a scroll-reveal ships opacity:0 from
+// the server and needs hydration to undo it, which leaves the FIRST screen blank for as long as
+// the bundle takes. Below the fold that trade is fine. Here it is the first thing anyone sees.
+//
 // The hero is the only section on this site allowed to be loud, and it is loud through TYPE and
 // space rather than colour — a gallery-first template that shouts in colour competes with the work
 // it exists to show.
@@ -17,22 +20,21 @@ export function Hero() {
             <Grid className="opacity-40" />
             <Container className="relative py-24 md:py-36">
                 <div className="max-w-4xl">
-                    <Reveal travel="sm" duration="fast">
-                        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-fg-subtle">
+                    <div className="enter"><p className="font-mono text-[11px] uppercase tracking-[0.22em] text-fg-subtle">
                             {site.hero.eyebrow}
                         </p>
-                    </Reveal>
-                    <Reveal delay={0.08}>
+                    </div>
+                    <div className="enter enter-1">
                         <h1 className="mt-6 font-display text-[clamp(2.6rem,7vw,5.2rem)] leading-[0.98] font-semibold tracking-[-0.035em] text-balance text-fg">
                             {site.hero.title}
                         </h1>
-                    </Reveal>
-                    <Reveal delay={0.16}>
+                    </div>
+                    <div className="enter enter-2">
                         <p className="mt-7 max-w-2xl text-lg leading-relaxed text-fg-muted">
                             {site.hero.subtitle}
                         </p>
-                    </Reveal>
-                    <Reveal delay={0.24} travel="sm">
+                    </div>
+                    <div className="enter enter-3">
                         <div className="mt-10 flex flex-wrap items-center gap-3">
                             <Button href={site.hero.primaryCta.href} size="lg">
                                 {site.hero.primaryCta.label}
@@ -43,10 +45,10 @@ export function Hero() {
                                 </Button>
                             ) : null}
                         </div>
-                    </Reveal>
+                    </div>
                 </div>
                 {site.hero.stats?.length ? (
-                    <Reveal delay={0.32} travel="sm">
+                    <div className="enter enter-4">
                         <dl className="mt-16 flex flex-wrap gap-x-14 gap-y-6 border-t border-line pt-8">
                             {site.hero.stats.map((s) => (
                                 <div key={s.label}>
@@ -59,7 +61,7 @@ export function Hero() {
                                 </div>
                             ))}
                         </dl>
-                    </Reveal>
+                    </div>
                 ) : null}
             </Container>
         </section>
