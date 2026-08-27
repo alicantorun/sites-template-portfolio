@@ -1,28 +1,129 @@
 @import "tailwindcss";
 
-/* Brand tokens (Tailwind v4 @theme) — a near-black editorial palette, deliberately different from
-   the coaching teal and the trades amber. Editing these three values re-skins the site, and that
-   claim is only true while every token has a real job, so here is each one's:
+/* ─────────────────────────────────────────────────────────────────────────────
+   THE THEME CONTRACT.
 
-     --color-brand       the ink of anything that acts or identifies — the wordmark, the hero link,
-                         the email address, the send button, every focus and hover state.
-     --color-brand-dark  the pressed/hover shade of that ink. Used by the send button.
-     --color-brand-tint  the page-tone wash behind the work grid and the sent-message panel.
+   Every colour, radius, rhythm and timing on this site comes from a token below. That is a
+   CONTRACT, not a preference: a design reference is applied by REWRITING these values, so a
+   component that reaches for a fixed Tailwind class (`bg-teal-600`, `rounded-lg`) ignores the
+   token and leaves a re-skinned site half its old identity. That has happened before — the hero
+   wash and the about portrait both did it — which is why it is written here rather than assumed.
 
-   A token that nothing reads is worse than no token: it tells the next agent the site can be
-   re-skinned by editing it, and then nothing changes. If a token stops being used, delete it. */
+   The token NAMES and their meanings are identical in all three templates. Only the VALUES below
+   differ, and those values are the art direction.
+
+   THIS TEMPLATE: gallery-first. Near-black surfaces so the work is the only bright thing on the
+   page, a restrained grotesque with tight tracking, minimal chrome, slow deliberate reveals.
+
+   DARK BY DEFAULT, and that is the art direction rather than a preference — which is why the
+   light/dark blocks below are INVERTED relative to the other two templates: the @theme block
+   holds the dark values and the media query supplies light. Everything downstream still reads
+   roles, so nothing else in the template knows or cares.
+   ───────────────────────────────────────────────────────────────────────────── */
+
 @theme inline {
-    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-        Helvetica, Arial, sans-serif;
-    --color-brand: #171717;
+    /* TYPE — a PAIR, not one face.
+       The display face carries personality and the body face carries legibility, and they are
+       separate tokens because a design reference rewrites only the display one. That is what lets
+       a client take on a reference's character without losing a reading face chosen for running
+       text. `--font-sans` aliases the body face so Tailwind's own `font-sans` stays correct. */
+    --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+        sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+        sans-serif;
+    --font-sans: var(--font-body);
+
+    /* BRAND — the three values a design reference writes. */
+    --color-brand: #f4f4f5;
+    --color-brand-dark: #ffffff;
+    /* The lightest shade: page washes and large tinted blocks, where --color-brand is too strong
+       to sit behind text. */
+    --color-brand-tint: #17181a;
+    /* Text ON a brand-filled surface. A token because a light brand needs dark text, and that
+       cannot be derived from the brand colour by a CSS class. */
+    --color-on-brand: #0a0a0b;
+
+    /* SURFACES AND TEXT — the pair that makes dark mode possible.
+       Components never name a literal colour; they name a role. Redefining the roles below the
+       @theme block is the whole of dark mode. */
+    --color-surface: #0a0a0b;
+    --color-surface-2: #141416;
+    --color-fg: #fafafa;
+    --color-fg-muted: #a1a1aa;
+    --color-fg-subtle: #6b6b73;
+    --color-line: #232326;
+
+    /* SHAPE. One step for controls, one for cards. Two, not five: a template with five radii has
+       no radius language, it has five accidents. */
+    --radius-control: 6px;
+    --radius-card: 4px;
+
+    /* DENSITY — the vertical rhythm of a section. This template is airy. */
+    --space-section: 8rem;
+
+    /* MOTION. The SAME scale in every template — a template expresses its character by which of
+       these it reaches for, not by redefining what "base" means. These are the CSS half of
+       lib/motion.ts, and tests/template-motion-tokens.test.ts fails when the two disagree. They
+       already did once, which is why the test exists. */
+    --motion-fast: 180ms;
+    --motion-base: 420ms;
+    --motion-slow: 660ms;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* LIGHT.
+   Only the ROLE tokens change. Brand hue is deliberately kept and lightened rather than replaced,
+   because a brand that becomes a different colour in dark mode is not the same brand.
+
+   The three-state pattern is required, not belt-and-braces: an explicit choice stamps
+   `data-theme`, and the DEFAULT setting stamps nothing at all — so a site with only a
+   `[data-theme]` rule renders light on a dark OS. */
+:root[data-theme="light"] {
+    --color-brand: #18181b;
     --color-brand-dark: #000000;
-    --color-brand-tint: #fafaf9;
+    --color-brand-tint: #f4f4f5;
+    --color-on-brand: #ffffff;
+    --color-surface: #ffffff;
+    --color-surface-2: #f7f7f8;
+    --color-fg: #101012;
+    --color-fg-muted: #52525b;
+    --color-fg-subtle: #8b8b93;
+    --color-line: #e6e6e9;
 }
 
 html {
     scroll-behavior: smooth;
 }
 body {
+    background: var(--color-surface);
+    color: var(--color-fg);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+}
+
+/* Someone who asks for reduced motion is often asking because movement makes them ill. Cut it to
+   effectively nothing rather than merely shortening it — and the JS reveals honour the same
+   preference by rendering their final state directly. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Content must not depend on JavaScript to be VISIBLE.
+   Every scroll-reveal ships `opacity: 0` inline from the server and only JS removes it, so a
+   blocked bundle, a failed hydration or a reader with JS off would get a header, a footer and
+   nothing between them. This is also why a full-page screenshot of this site came out blank —
+   a capture does not scroll, so the reveals never fired. Motion is an enhancement; the words are
+   the site. */
+@media (scripting: none) {
+    [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
 }

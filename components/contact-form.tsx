@@ -11,9 +11,9 @@ import { useContact } from "@/lib/hooks/use-contact";
 // retry; a send in flight disables the button and says so; a delivered send REPLACES the form, so
 // success and failure can never be visible at the same time. Conflating them is how a visitor ends
 // up staring at a spinner that already failed, or re-sending a message that already arrived.
-const LABEL = "block text-xs font-medium uppercase tracking-[0.15em] text-neutral-400";
+const LABEL = "block text-xs font-medium uppercase tracking-[0.15em] text-fg-subtle";
 const FIELD =
-    "mt-2 w-full border-b border-neutral-300 bg-transparent py-2 text-base text-neutral-900 outline-none transition-colors placeholder:text-neutral-300 focus:border-brand";
+    "mt-2 w-full border-b border-line bg-transparent py-2 text-base text-fg outline-none transition-colors duration-[var(--motion-fast)] placeholder:text-fg-subtle focus:border-brand";
 
 export function ContactForm() {
     const contact = useContact();
@@ -27,7 +27,7 @@ export function ContactForm() {
                 className="border-l-2 border-brand bg-brand-tint px-5 py-4"
             >
                 <p className="text-sm font-medium text-brand">Message sent.</p>
-                <p className="mt-1 text-sm text-neutral-600">
+                <p className="mt-1 text-sm text-fg-muted">
                     Thank you — I reply to everything, usually within two days.
                 </p>
             </div>

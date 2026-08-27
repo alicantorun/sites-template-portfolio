@@ -1,21 +1,20 @@
-import { Nav } from "@/components/nav";
 import { Hero } from "@/components/hero";
-import { Work } from "@/components/work";
+import { WorkGrid } from "@/components/work-grid";
+import { Testimonials } from "@/components/testimonials";
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
-import { Footer } from "@/components/footer";
 
+// The home page is a SEQUENCE, not a dump of every section. It shows three projects and sends
+// people to /work for the rest, because a portfolio home page that shows everything gives a
+// visitor no reason to go anywhere and no sense of what the studio thinks is its best.
 export default function Home() {
     return (
-        <>
-            <Nav />
-            <main>
+            <main id="main">
                 <Hero />
-                <Work />
+                <WorkGrid limit={3} />
+                <Testimonials />
                 <About />
                 <Contact />
             </main>
-            <Footer />
-        </>
     );
 }

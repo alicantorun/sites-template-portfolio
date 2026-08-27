@@ -40,8 +40,51 @@ export interface Site {
     work?: {
         title: string;
         subtitle?: string;
-        projects: { name: string; kind: string; year: string; blurb: string }[];
+        projects: {
+            /** URL segment for /work/[slug]. Lowercase, hyphens only — it becomes a route. */
+            slug: string;
+            name: string;
+            kind: string;
+            year: string;
+            blurb: string;
+            /** The detail page. Absent means the project lists but has no page of its own, which
+             *  is deliberate: a case study with nothing written is worse than a card. */
+            detail?: {
+                summary: string;
+                role?: string;
+                services?: string[];
+                /** Body copy, one paragraph per entry. */
+                body: string[];
+                outcome?: { value: string; label: string }[];
+            };
+        }[];
     };
+    /** Published tiers. Many service businesses deliberately do not publish prices — this section
+     *  is absent for them rather than filled with "POA". */
+    pricing?: {
+        title: string;
+        subtitle?: string;
+        tiers: {
+            name: string;
+            price: string;
+            /** e.g. "per month", "per session". Absent for one-off prices. */
+            cadence?: string;
+            blurb: string;
+            features: string[];
+            /** Exactly one tier may set this; it gets the emphasised treatment. */
+            featured?: boolean;
+            cta?: { label: string; href: string };
+        }[];
+        note?: string;
+    };
+    /** Social proof. Kept separate from `about` because it is the client's words, not the site's. */
+    testimonials?: {
+        title: string;
+        subtitle?: string;
+        items: { quote: string; name: string; role?: string }[];
+    };
+    /** The questions a buyer asks before they enquire. Also the cheapest SEO surface on the site. */
+    faq?: { title: string; subtitle?: string; items: { q: string; a: string }[] };
     /** Where a local business operates. */
     areas?: { title: string; subtitle?: string; items: string[] };
     hours?: { title: string; note?: string; days: { day: string; open: string }[] };
