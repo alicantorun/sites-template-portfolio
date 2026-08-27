@@ -50,7 +50,7 @@
     --color-surface-2: #141416;
     --color-fg: #fafafa;
     --color-fg-muted: #a1a1aa;
-    --color-fg-subtle: #6b6b73;
+    --color-fg-subtle: #8b8b93;
     --color-line: #232326;
 
     /* SHAPE. One step for controls, one for cards. Two, not five: a template with five radii has
@@ -87,7 +87,7 @@
     --color-surface-2: #f7f7f8;
     --color-fg: #101012;
     --color-fg-muted: #52525b;
-    --color-fg-subtle: #8b8b93;
+    --color-fg-subtle: #6f767f;
     --color-line: #e6e6e9;
 }
 

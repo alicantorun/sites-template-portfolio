@@ -111,7 +111,7 @@ export function ContactForm() {
                 // one the route chose to make public; nothing internal reaches here.
                 <p
                     role="alert"
-                    className="mt-6 border-l-2 border-red-400 bg-red-50 px-4 py-3 text-sm text-red-800"
+                    className="mt-6 border-l-2 border-line bg-surface-2 px-4 py-3 text-sm text-fg"
                 >
                     {contact.error.message}
                 </p>
@@ -120,7 +120,7 @@ export function ContactForm() {
             <button
                 type="submit"
                 disabled={contact.isPending}
-                className="mt-8 inline-flex items-center bg-brand px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-8 inline-flex items-center bg-brand px-6 py-3 text-sm font-medium text-on-brand transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
             >
                 {contact.isPending ? "Sending…" : "Send message"}
             </button>

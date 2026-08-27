@@ -7,6 +7,29 @@ This file holds only what you **cannot work out by reading the code**. Everythin
 code, or in the two rules files under `.claude/rules/`, which load when you touch the area they
 govern. If something here is not true any more, it is a defect: fix it in the same change.
 
+## Colour comes from a token. Always. Including white.
+
+Every colour on this site resolves through a ROLE token in `app/globals.css`, because the site has
+a light palette and a dark one and a fixed utility is correct in exactly one of them.
+
+`bg-teal-500` is the obvious violation and nobody writes it. The one that ships is **`text-white`,
+`bg-white/5`, `border-white/15`, `text-neutral-300`** — they look like structure rather than brand,
+so they feel exempt. They are not. A contact form written that way rendered white text on a white
+card: the build passed, nothing errored, and the form was unreadable.
+
+Use `text-fg` / `text-fg-muted` / `text-fg-subtle` for text, `bg-surface` / `bg-surface-2` for
+surfaces, `border-line` for anything drawn, `bg-brand` with `text-on-brand` for a brand fill.
+
+Two that are easy to get wrong:
+
+- **Text on a brand fill is `text-on-brand`, never `text-white`.** A light brand needs dark text
+  and no class can work that out — that is the whole reason the token exists.
+- **A foreground and its surface are ONE decision.** If you change one, name the other. Translating
+  each utility on its own is how `text-white` becomes `text-on-brand` on a plain card and stays
+  just as unreadable.
+
+Full table and the reasoning: `.claude/rules/content-and-ui.md`.
+
 ## What this is
 
 A Next.js (App Router) marketing site, generated from a template by **alicantorun.com**. It is one

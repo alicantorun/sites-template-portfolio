@@ -30,6 +30,41 @@ in a component.** Use `bg-brand`, `text-brand`, `border-brand/20`.
 A trap worth knowing: **Tailwind v4 scans comments**. Writing `from-teal-50` inside an explanatory
 comment ships that dead CSS rule. Describe the change without naming the class.
 
+### This includes NEUTRALS, WHITE and BLACK — the rule that gets broken
+
+`bg-teal-500` is the obvious violation and almost nobody writes it. The one that actually ships is
+`text-white`, `bg-white/5`, `border-white/15`, `text-neutral-300`, `bg-black/40` — because they
+look like structure rather than brand, so they feel exempt. They are not.
+
+This site has a LIGHT palette and a DARK one, and every colour utility must resolve through a role
+token so both work. A hardcoded `text-white` is correct in exactly one of the two modes and
+invisible in the other. It happened here: a contact form was written with `bg-white/5` and
+`text-white`, which on the light page is white text on a white card. Nothing errored, the build
+passed, and the form was simply unreadable.
+
+**Use the ROLE, always:**
+
+| Instead of | Write | Meaning |
+|---|---|---|
+| `text-white`, `text-black`, `text-neutral-900` | `text-fg` | primary text |
+| `text-neutral-500/600` | `text-fg-muted` | secondary text |
+| `text-neutral-400` | `text-fg-subtle` | labels, captions, hints |
+| `bg-white`, `bg-neutral-900` | `bg-surface` | the page |
+| `bg-white/5`, `bg-neutral-50/100` | `bg-surface-2` | a raised card or field |
+| `border-neutral-200`, `border-white/15` | `border-line` | any divider or outline |
+| `text-white` ON a brand fill | `text-on-brand` | text that sits on `bg-brand` |
+
+Two more that are easy to get wrong:
+
+- **Text on a brand fill is `text-on-brand`, not `text-white`.** A light brand colour needs dark
+  text, and no class can work that out — that is why the token exists.
+- **Check the PAIR, not the colour.** A foreground and the surface behind it are chosen together.
+  If you set one, say which surface it sits on; if you cannot name the surface, you are guessing.
+
+`tests/template-tokens.test.ts` in the platform repo scans these components and fails on a fixed
+colour utility, so the templates cannot drift back. It cannot see what an agent writes into a
+client's site at runtime — which is exactly why this section exists.
+
 ## The three render states
 
 Loading, error and empty are three different things and are rendered as three different things,

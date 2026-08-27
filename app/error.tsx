@@ -21,19 +21,19 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
     return (
         <main className="mx-auto flex min-h-[60vh] max-w-xl flex-col justify-center px-6">
             <h1 className="text-2xl font-semibold">Something went wrong</h1>
-            <p className="mt-3 text-neutral-600">
+            <p className="mt-3 text-fg-muted">
                 This page could not be loaded. Please try again — and if it keeps happening, send us
                 the reference below.
             </p>
             <button
                 type="button"
                 onClick={reset}
-                className="mt-6 self-start border border-neutral-900 px-4 py-2 text-sm font-medium"
+                className="mt-6 self-start border border-line px-4 py-2 text-sm font-medium"
             >
                 Try again
             </button>
             {error.digest && (
-                <p className="mt-6 font-mono text-xs text-neutral-400">reference {error.digest}</p>
+                <p className="mt-6 font-mono text-xs text-fg-subtle">reference {error.digest}</p>
             )}
         </main>
     );

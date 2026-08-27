@@ -2,7 +2,7 @@
 // never an endless spinner that a visitor reads as "still working".
 export function QueryError({ message, onRetry }: { message: string; onRetry?: () => void }) {
     return (
-        <div role="alert" className="border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <div role="alert" className="border border-line bg-surface-2 px-4 py-3 text-sm text-fg">
             <p>{message}</p>
             {onRetry && (
                 <button
